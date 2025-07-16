@@ -85,3 +85,17 @@ exports.deleteFazenda = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+//LISTA AREA TOTAL FAZENDA
+exports.getTotalPorFazenda = async (req,res) =>{
+    try{
+        const result = await pool.query(
+        `SELECT cod_fazenda, SUM(tamanho_ha) AS tamanho_total
+        FROM fazenda
+        GROUP BY cod_fazenda`
+        );
+        res.json(result.rows);
+    }catch{
+        res.status(500).json({error: err.message});
+    }
+};
